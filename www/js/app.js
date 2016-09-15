@@ -1,5 +1,4 @@
 // Ionic Starter App
-
 // angular.module is a global place for creating, registering and retrieving Angular modules
 // 'starter' is the name of this angular module example (also set in a <body> attribute in index.html)
 // the 2nd parameter is an array of 'requires'
@@ -10,8 +9,7 @@ angular.module('starter', [
 
 .factory("Auth", ["$firebaseAuth",
   function($firebaseAuth) {
-    var ref = new Firebase("https://mcapp-87c82.firebaseio.com/");
-    return $firebaseAuth(ref);
+    return $firebaseAuth();
   }
 ])
 
@@ -32,16 +30,7 @@ angular.module('starter', [
         $rootScope.firebaseUrl = "https://mcapp-87c82.firebaseio.com/";
         $rootScope.displayName = null;
 
-        // Auth.$onAuth(function (authData) {
-        //     if (authData) {
-        //         console.log("Logged in as:", authData.uid);
-        //     } else {
-        //         console.log("Logged out");
-        //         $ionicLoading.hide();
-        //         $location.path('/login');
-        //     }
-        // });
-        auth.onAuthStateChanged(function(user) {
+        Auth.$onAuthStateChanged(function(user) {
           if (user) {
             // User signed in!
             console.log("Logged in as:", user);
@@ -49,7 +38,7 @@ angular.module('starter', [
           } else {
              console.log("Logged out");
              $ionicLoading.hide();
-             $location.path('/login');
+             $location.path('/kirjaudu');
           }
         });
 
@@ -59,14 +48,14 @@ angular.module('starter', [
                 template: 'Logging Out...'
             });
             Auth.$unauth();
-        }
+        };
 
 
         $rootScope.$on("$stateChangeError", function (event, toState, toParams, fromState, fromParams, error) {
             // We can catch the error thrown when the $requireAuth promise is rejected
             // and redirect the user back to the home page
             if (error === "AUTH_REQUIRED") {
-                $location.path("/login");
+                $location.path('/kirjaudu');
             }
         });
     });
@@ -115,7 +104,7 @@ angular.module('starter', [
         }]
         }
   })
-  $urlRouterProvider.otherwise("/kirjaudu");
+  $urlRouterProvider.otherwise('/kirjaudu');
 })
 
 
@@ -134,74 +123,75 @@ angular.module('starter', [
 })
 
 .controller('kirjauduCtrl', function ($scope, $ionicModal, $state, $firebaseAuth, $ionicLoading, $rootScope) {
-console.log('Login Controller Initialized');
+  console.log('Login Controller Initialized');
 
-var ref = new Firebase("https://mcapp-87c82.firebaseio.com/");
-// var auth = $firebaseAuth(ref);
-var auth = firebase.auth();
-var provider = new firebase.auth.GoogleAuthProvider();
-auth.signInWithPopup(provider).then(function(result) {
-  var accessToken = result.credential.accessToken;
-});
+  var ref = new Firebase("https://mcapp-87c82.firebaseio.com/");
+  // var auth = $firebaseAuth(ref);
+  var auth = firebase.auth();
+  var provider = new firebase.auth.GoogleAuthProvider();
+
+  auth.signInWithPopup(provider).then(function(result) {
+    var accessToken = result.credential.accessToken;
+  });
 
 
-$ionicModal.fromTemplateUrl('templates/uusi-kayttaja.html', {
-    scope: $scope
-}).then(function (modal) {
-    $scope.modal = modal;
-});
+  $ionicModal.fromTemplateUrl('templates/uusi-kayttaja.html', {
+      scope: $scope
+  }).then(function (modal) {
+      $scope.modal = modal;
+  });
 
-$scope.createUser = function (user) {
-    console.log("Create User Function called");
-    if (user && user.email && user.password && user.displayname) {
-        $ionicLoading.show({
-            template: 'Signing Up...'
-        });
+  $scope.createUser = function (user) {
+      console.log("Create User Function called");
+      if (user && user.email && user.password && user.displayname) {
+          $ionicLoading.show({
+              template: 'Signing Up...'
+          });
 
-        auth.$createUser({
-            email: user.email,
-            password: user.password
-        }).then(function (userData) {
-            alert("User created successfully!");
-            ref.child("users").child(userData.uid).set({
-                email: user.email,
-                displayName: user.displayname
-            });
-            $ionicLoading.hide();
-            $scope.modal.hide();
-        }).catch(function (error) {
-            alert("Error: " + error);
-            $ionicLoading.hide();
-        });
-    } else
-        alert("Please fill all details");
-}
+          auth.$createUser({
+              email: user.email,
+              password: user.password
+          }).then(function (userData) {
+              alert("User created successfully!");
+              ref.child("users").child(userData.uid).set({
+                  email: user.email,
+                  displayName: user.displayname
+              });
+              $ionicLoading.hide();
+              $scope.modal.hide();
+          }).catch(function (error) {
+              alert("Error: " + error);
+              $ionicLoading.hide();
+          });
+      } else
+          alert("Please fill all details");
+  }
 
-$scope.signIn = function (user) {
+  $scope.signIn = function (user) {
 
-    if (user && user.email && user.pwdForLogin) {
-        $ionicLoading.show({
-            template: 'Signing In...'
-        });
-        auth.$authWithPassword({
-            email: user.email,
-            password: user.pwdForLogin
-        }).then(function (authData) {
-            console.log("Logged in as:" + authData.uid);
-            ref.child("users").child(authData.uid).once('value', function (snapshot) {
-                var val = snapshot.val();
-                // To Update AngularJS $scope either use $apply or $timeout
-                $scope.$apply(function () {
-                    $rootScope.displayName = val;
-                });
-            });
-            $ionicLoading.hide();
-            $state.go('tab.rooms');
-        }).catch(function (error) {
-            alert("Authentication failed:" + error.message);
-            $ionicLoading.hide();
-        });
-    } else
-        alert("Please enter email and password both");
-}
+      if (user && user.email && user.pwdForLogin) {
+          $ionicLoading.show({
+              template: 'Signing In...'
+          });
+          auth.$authWithPassword({
+              email: user.email,
+              password: user.pwdForLogin
+          }).then(function (authData) {
+              console.log("Logged in as:" + authData.uid);
+              ref.child("users").child(authData.uid).once('value', function (snapshot) {
+                  var val = snapshot.val();
+                  // To Update AngularJS $scope either use $apply or $timeout
+                  $scope.$apply(function () {
+                      $rootScope.displayName = val;
+                  });
+              });
+              $ionicLoading.hide();
+              $state.go('tab.rooms');
+          }).catch(function (error) {
+              alert("Authentication failed:" + error.message);
+              $ionicLoading.hide();
+          });
+      } else
+          alert("Please enter email and password both");
+  }
 });

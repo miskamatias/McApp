@@ -14,9 +14,11 @@
     <script src="lib/ionic/js/ionic.bundle.js"></script>
 
     <!-- Firebase -->
-    <!-- <script src="https://cdn.firebase.com/js/client/2.2.4/firebase.js"></script> -->
     <!-- AngularFire -->
-    <!-- <script src="https://cdn.firebase.com/libs/angularfire/1.2.0/angularfire.min.js"></script> -->
+    <script src="https://www.gstatic.com/firebasejs/3.3.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/3.3.0/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/3.3.0/firebase-database.js"></script>
+    <script src="https://cdn.firebase.com/libs/angularfire/2.0.2/angularfire.min.js"></script>
     <script src="https://www.gstatic.com/firebasejs/3.4.0/firebase.js"></script>
     <script>
       // Initialize Firebase
@@ -28,6 +30,7 @@
         messagingSenderId: "114890888130"
       };
       firebase.initializeApp(config);
+      var rootRef = firebase.database().ref();
     </script>
 
     <!-- cordova script (this will be a 404 during development) -->
