@@ -7,28 +7,28 @@
 
     <link rel="manifest" href="manifest.json">
 
-    <!-- un-comment this code to enable service worker
-    <script>
-      if ('serviceWorker' in navigator) {
-        navigator.serviceWorker.register('service-worker.js')
-          .then(() => console.log('service worker installed'))
-          .catch(err => console.log('Error', err));
-      }
-    </script>-->
-
     <link href="lib/ionic/css/ionic.css" rel="stylesheet">
     <link href="css/style.css" rel="stylesheet">
 
-    <!-- IF using Sass (run gulp sass first), then uncomment below and remove the CSS includes above
-    <link href="css/ionic.app.css" rel="stylesheet">
-    -->
-    <!-- Firebase -->
-    <script src="https://cdn.firebase.com/js/client/2.2.4/firebase.js"></script>
-    <!-- AngularFire -->
-    <script src="https://cdn.firebase.com/libs/angularfire/1.1.2/angularfire.min.js"></script>
-
     <!-- ionic/angularjs js -->
     <script src="lib/ionic/js/ionic.bundle.js"></script>
+
+    <!-- Firebase -->
+    <!-- <script src="https://cdn.firebase.com/js/client/2.2.4/firebase.js"></script> -->
+    <!-- AngularFire -->
+    <!-- <script src="https://cdn.firebase.com/libs/angularfire/1.2.0/angularfire.min.js"></script> -->
+    <script src="https://www.gstatic.com/firebasejs/3.4.0/firebase.js"></script>
+    <script>
+      // Initialize Firebase
+      var config = {
+        apiKey: "AIzaSyDYttWeJI2F85Jbczkx-5TCEqRAu6JaNbs",
+        authDomain: "mcapp-87c82.firebaseapp.com",
+        databaseURL: "https://mcapp-87c82.firebaseio.com",
+        storageBucket: "mcapp-87c82.appspot.com",
+        messagingSenderId: "114890888130"
+      };
+      firebase.initializeApp(config);
+    </script>
 
     <!-- cordova script (this will be a 404 during development) -->
     <script src="cordova.js"></script>
@@ -47,14 +47,13 @@
      <ion-side-menu side = "left">
        <ion-content class="has-header">
          <ion-list>
-           <ion-item menu-close href="#/etusivu">
-             Etusivu
-           </ion-item>
            <ion-item menu-close href="#/raakahavikki">
              Raakahävikki
            </ion-item>
            <ion-item menu-close href="#/tuorehavikki">
              Tuorehävikki
+           </ion-item><ion-item menu-close href="#/kirjaudu">
+             Kirjaudu
            </ion-item>
          </ion-list>
        </ion-content>
