@@ -195,7 +195,7 @@ angular.module('starter', ['ionic','firebase'])
           authObj.$signInWithEmailAndPassword(user.email, user.pwdForLogin).then(function(firebaseUser) {
             console.log("Signed in as:", firebaseUser.uid);
             $ionicLoading.hide();
-            $state.go('/raakahavikki');
+            $state.go('raakahavikki');
           }).catch(function(error) {
             console.error("Authentication failed:", error);
             $ionicLoading.hide();
