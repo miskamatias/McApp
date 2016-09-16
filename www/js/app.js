@@ -166,21 +166,6 @@ angular.module('starter', ['ionic','firebase'])
             });
             $ionicLoading.hide();
             $scope.modal.hide();
-      //     auth.$createUser({
-      //         email: user.email,
-      //         password: user.password
-      //     }).then(function (userData) {
-      //         alert("User created successfully!");
-      //         ref.child("users").child(userData.uid).set({
-      //             email: user.email,
-      //             displayName: user.displayname
-      //         });
-      //         $ionicLoading.hide();
-      //         $scope.modal.hide();
-      //     }).catch(function (error) {
-      //         alert("Error: " + error);
-      //         $ionicLoading.hide();
-      //     });
     } else {
           alert("Please fill all details");
         }
@@ -200,24 +185,6 @@ angular.module('starter', ['ionic','firebase'])
             console.error("Authentication failed:", error);
             $ionicLoading.hide();
           });
-          // auth.$authWithPassword({
-          //     email: user.email,
-          //     password: user.pwdForLogin
-          // }).then(function (authData) {
-          //     console.log("Logged in as:" + authData.uid);
-          //     ref.child("users").child(authData.uid).once('value', function (snapshot) {
-          //         var val = snapshot.val();
-          //         // To Update AngularJS $scope either use $apply or $timeout
-          //         $scope.$apply(function () {
-          //             $rootScope.displayName = val;
-          //         });
-          //     });
-          //     $ionicLoading.hide();
-          //     $state.go('tab.rooms');
-          // }).catch(function (error) {
-          //     alert("Authentication failed:" + error.message);
-          //     $ionicLoading.hide();
-          // });
       } else {
           alert("Please enter email and password both");
         }
